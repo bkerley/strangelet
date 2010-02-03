@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define N_MODULES 10
+#define N_MODULES 20
 #define WIDTH 80
 #define HEIGHT 20
 
@@ -25,31 +25,32 @@ void place_module() {
     left = endpoints[rand() % last_endpoint];
   }
 
-  right = left;
+  while (1) {
+    right = left;
 
-  the_map[left.y][left.x] = '0';
-  
-  direction = rand() % 4;
-  switch (direction) {
-  case 0: /* north */
-    right.y = left.y + 3;
-    dy = 3;
-    break;
-  case 1: /* east */
-    right.x = left.x + 3;
-    dx = 3;
-    break;
-  case 2: /* south */
-    right.y = left.y - 3;
-    dy = -3;
-    break;
-  case 3: /* west */
-    right.x = left.x - 3;
-    dx = -3;
-    break;
+    direction = rand() % 4;
+    switch (direction) {
+    case 0: /* north */
+      right.y = left.y + 3;
+      dy = 3;
+      break;
+    case 1: /* east */
+      right.x = left.x + 3;
+      dx = 3;
+      break;
+    case 2: /* south */
+      right.y = left.y - 3;
+      dy = -3;
+      break;
+    case 3: /* west */
+      right.x = left.x - 3;
+      dx = -3;
+      break;
+    }
+    if (right.x > 0 && right.x < WIDTH && right.y > 0 && right.y < HEIGHT) {
+      break;
+    }
   }
-
-  the_map[right.y][right.x] = '0';
 
   if (dx != 0) {
     for (i = 0; i < abs(dx); i++) {
@@ -62,6 +63,9 @@ void place_module() {
       the_map[left.y + (i * (dy / abs(dy)))][left.x] = 'X';
     }
   }
+
+  the_map[left.y][left.x] = '0';
+  the_map[right.y][right.x] = '0';
   endpoints[last_endpoint++] = left;
   endpoints[last_endpoint++] = right;
 }
